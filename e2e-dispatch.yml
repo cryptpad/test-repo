@@ -1,7 +1,17 @@
-- name: Repository Dispatch
-  uses: cryptpad/test-repo
-  with:
-    token: ${{ secrets.TEST_PAT }}
-    repository: cryptpad/e2e-test-suite
-    event-type: trigger-e2e-tests
-    # client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+
+name: 'Usage of repository-dispatch GitHub Action'
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v3
+      with:
+        token: ${{ secrets.TEST_PAT }}
+        repository: cryptpad/e2e-test-suite
+        event-type: trigger-e2e-tests
